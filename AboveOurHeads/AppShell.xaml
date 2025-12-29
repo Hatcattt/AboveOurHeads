@@ -6,9 +6,12 @@
     xmlns:local="clr-namespace:AboveOurHeads"
     Title="AboveOurHeads">
 
+    <TabBar>
+        
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+    </TabBar>
 </Shell>
