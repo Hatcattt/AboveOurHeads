@@ -13,5 +13,11 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
+        <ShellContent
+            Title="Tracker"
+            Icon="track.png"
+            ContentTemplate="{DataTemplate local:SatelliteTrackingPage}"
+            Route="Traker" />
+
     </TabBar>
 </Shell>
