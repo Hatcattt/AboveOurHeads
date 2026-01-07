@@ -2,55 +2,117 @@
 
 Ever wondered what’s happening **above your head**? 🛰️
 
-**Above Our Heads** is a cross-platform satellite tracker built with **C#** and **.NET MAUI** in **.NET 10**.
-It lets you explore, visualize, and follow satellites orbiting the Earth — right from your mobile device or computer.
+**Above Our Heads** is a satellite tracking project built in **C#** and **.NET 10**, designed to be modular and extensible.
+It started as a simple console experiment and is evolving toward a cross-platform experience with **.NET MAUI** (Android / Windows; iOS & macOS planned) and even web via **Blazor**, letting you explore satellites orbiting Earth from multiple interfaces.
 
 ---
 
-## 🚀 Planned Features
+## 🚀 Current & Planned Features
 
-* Real-time satellite tracking
-* Interactive map
+Right now, the project focuses on **retrieving and displaying basic satellite information**.
+You can already see satellite data either in a **console app** or via a **Blazor web page**.
+
+**Current features include:**
+
+* Retrieve satellite predictions and positions from TLE data
+* Display satellite info in console (ISS as example)
+* Simple Blazor web interface showing:
+
+  * Name, NORAD ID
+  * Position (Latitude, Longitude, Altitude)
+  * Velocity (km/s and km/h)
+  * Last updated timestamp
+
+**Planned features:**
+
+* Real-time satellite tracking with auto-refresh
+* Interactive map visualization
 * Custom satellite watchlist
-* Notifications for satellite passes above your location
-* Offline mode (local SQLite cache)
-* Technical dashboard (altitude, speed, TLE data, etc.)
+* Notifications for satellite passes
+* Offline mode with local caching
+* Technical dashboard with altitude, speed, TLE data, and more
+
+> Currently, the console and Blazor pages provide a working proof-of-concept. MAUI UI and interactive features will be added gradually.
 
 ---
 
-## 🧱 Tech Stack & Structure
+## 🧱 Tech Stack & Architecture
 
 * **Language:** C#, XAML
 * **Version:** .NET 10
-* **Framework:** .NET MAUI (Android / Windows / - iOS & macOS planned)
-* **Data Storage:** SQLite
-* **Pattern:** MVVM
+* **Framework:** .NET MAUI (mobile / desktop) & Blazor Web (server-side experimental)
+* **Architecture:** Modular, multi-project solution for maintainability and scalability
+* **Pattern:** MVVM (for MAUI), with services decoupled from UI
 
-### 🗂️ Project Structure (Example)
+### 🗂️ Current Project Structure
+
+The solution is organized in **multiple projects**:
 
 ```
 /AboveOurHeads
 │
-├── Data/                # Data sources, database config and models
-├── Services/            # tracking services
-├── ViewModels/          # MVVM ViewModels (logic & binding)
-├── Views/               # XAML pages and UI components
-├── Resources/           # Images, styles, ...
-├── Helpers/             # Converters, extensions, utilities
-└── App.xaml / App.xaml.cs
+├── .Core/               # Shared interfaces, models
+├── .Services/           # SatelliteService, TleService, caching
+├── .ConsoleApp/         # Temporary console UI for testing services
+├── .MAUI/               # .NET MAUI cross-platform app
+├── .BlazorWebApp/       # Early visual experiments with Blazor
+└── .Tests/              # Unit tests for services (coverage in progress)
 ```
 
-The goal is to keep the project **simple, modular, and maintainable**, without over-engineering.
+**Key design goals:**
+
+* Keep services and business logic **decoupled** from UI
+* Make the project **modular**: you can replace or extend UI (console, MAUI, web) without changing core logic
+* Use caching (`IMemoryCache`) to improve performance and avoid unnecessary API calls
+* Follow **clean code principles** to ensure maintainability as the project grows
+
+---
 
 ## 🛠️ Build & Deployment
 
-*(Coming soon)*
+Even if the full MAUI UI is still under development, you can **test the core functionality** via the console app or Blazor web page.
+
+### 1️⃣ Prerequisites
+
+* [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) installed
+* Optional: IDE such as **Visual Studio 2022/2023** or **VS Code**
+
+### 2️⃣ Test the Console App
+
+```bash
+cd AboveOurHeads.ConsoleApp
+dotnet restore
+dotnet build
+dotnet run
+```
+
+> Real-time satellite data (e.g., ISS) will be displayed every 2 seconds.
+
+### 3️⃣ Test the Blazor Server App
+
+```bash
+cd AboveOurHeads.BlazorWebApp
+dotnet restore
+dotnet build
+dotnet run
+```
+
+> Open your browser at `https://localhost:5001` (or the provided URL) then under satellite tab to see a **working web page** displaying satellite information, including position, velocity, and last updated timestamp.
+
+### 4️⃣ Run Unit Tests
+
+```bash
+cd AboveOurHeads.Tests
+dotnet test
+```
+
+> Current tests cover main services like `TleProvider`. `TleParser`. More tests will be added progressively.
 
 ---
 
 ## 📸 Screenshots
 
-*(Coming soon)*
+*(Coming soon — first UI previews for MAUI & Blazor in development)*
 
 ---
 
