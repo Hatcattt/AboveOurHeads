@@ -1,0 +1,92 @@
+﻿@page "/satellite"
+@attribute [StreamRendering]
+@inject ISatelliteService SatelliteService
+
+<PageTitle>Satelitte</PageTitle>
+
+<h1>Satellite info</h1>
+
+<p>This component demonstrates showing data.</p>
+
+@if (issSatellite == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <span class="fw-bold">NORAD ID: @issSatellite.NoradId</span>
+            <span class="badge bg-light text-primary">En orbite</span>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title mb-3">
+                <i class="bi bi-geo-alt-fill text-primary me-2"></i>@issSatellite.Name
+            </h5>
+
+            <div class="card-text">
+                <!-- Position -->
+                <div class="mb-3">
+                    <h6 class="text-muted mb-2">📍 Position</h6>
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <div class="p-2 bg-light rounded">
+                                <small class="text-muted d-block">Latitude</small>
+                                <strong>@issSatellite.Position.Latitude.ToString("F2")°</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-2 bg-light rounded">
+                                <small class="text-muted d-block">Longitude</small>
+                                <strong>@issSatellite.Position.Longitude.ToString("F2")°</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-2 bg-light rounded">
+                                <small class="text-muted d-block">Altitude</small>
+                                <strong>@issSatellite.Position.AltitudeKm.ToString("F2") km</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vitesse -->
+                <div class="mb-2">
+                    <h6 class="text-muted mb-2">🚀 Vitesse</h6>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <div class="p-2 bg-light rounded">
+                                <small class="text-muted d-block">km/s</small>
+                                <strong class="text-success">@issSatellite.Velocity.Kms.ToString("F2")</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-2 bg-light rounded">
+                                <small class="text-muted d-block">km/h</small>
+                                <strong class="text-success">@issSatellite.Velocity.Kmh.ToString("F0")</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted text-center">
+            <small>Dernière mise à jour : @DateTime.Now.ToString("HH:mm:ss")</small>
+        </div>
+    </div>
+}
+
+@code {
+
+    private AboveOurHeads.Core.Models.Satellite? issSatellite;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await SatelliteService.GetSatellitePredictionAsync(25544);
+
+        if (result.IsSuccess)
+        {
+            issSatellite = result.Value;
+        }
+    }
+}
