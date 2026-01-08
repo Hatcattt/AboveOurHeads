@@ -1,9 +1,13 @@
 ﻿# 🌍 Above Our Heads
 
+[![CI](https://github.com/Hatcattt/AboveOurHeads/actions/workflows/ci.yml/badge.svg)](https://github.com/Hatcattt/AboveOurHeads/actions/workflows/ci.yml)
+
 Ever wondered what’s happening **above your head**? 🛰️
 
 **Above Our Heads** is a satellite tracking project built in **C#** and **.NET 10**, designed to be modular and extensible.
 It started as a simple console experiment and is evolving toward a cross-platform experience with **.NET MAUI** (Android / Windows; iOS & macOS planned) and even web via **Blazor**, letting you explore satellites orbiting Earth from multiple interfaces.
+
+This project uses **TLE (Two-Line Element) files** to calculate satellite positions and leverages the [SGP.NET library](https://github.com/parzivail/SGP.NET) for orbital calculations.
 
 ---
 
@@ -43,6 +47,7 @@ You can already see satellite data either in a **console app** or via a **Blazor
 * **Framework:** .NET MAUI (mobile / desktop) & Blazor Web (server-side experimental)
 * **Architecture:** Modular, multi-project solution for maintainability and scalability
 * **Pattern:** MVVM (for MAUI), with services decoupled from UI
+* **Orbit calculations:** [SGP.NET](https://github.com/parzivail/SGP.NET)
 
 ### 🗂️ Current Project Structure
 
@@ -68,14 +73,22 @@ The solution is organized in **multiple projects**:
 
 ---
 
-## 🛠️ Build & Deployment
+## 🛠️ Build, Tests & CI/CD
 
 Even if the full MAUI UI is still under development, you can **test the core functionality** via the console app or Blazor web page.
+
+This project includes a **GitHub Actions CI pipeline** that runs automatically on pull requests and merges to `main`. The CI:
+
+- Restores dependencies
+- Builds the solution
+- Runs all unit tests
+
+You can also test locally:
 
 ### 1️⃣ Prerequisites
 
 * [.NET 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) installed
-* Optional: IDE such as **Visual Studio 2022/2023** or **VS Code**
+* Optional: IDE such as **Visual Studio 2022/2026** or **VS Code**
 
 ### 2️⃣ Test the Console App
 
@@ -91,7 +104,7 @@ dotnet run
 ### 3️⃣ Test the Blazor Server App
 
 ```bash
-cd AboveOurHeads.BlazorWebApp
+cd BlazorWebApp\BlazorWebApp\
 dotnet restore
 dotnet build
 dotnet run
