@@ -20,17 +20,22 @@ jobs:
         with:
           global-json-file: global.json
 
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
       - name: Install MAUI Android workload
         run: dotnet workload install maui-android --skip-manifest-update
-
-      - name: Restore workloads
-        run: dotnet workload restore
 
       - name: Restore dependencies
         run: dotnet restore AboveOurHeads.sln
 
-      - name: Build solution
-        run: dotnet build AboveOurHeads.sln --configuration Release --no-restore
+      - name: Build solution (Debug)
+        run: dotnet build AboveOurHeads.sln --configuration Debug --no-restore
 
       - name: Run tests
-        run: dotnet test AboveOurHeads.Tests/AboveOurHeads.Tests.csproj --configuration Release --no-build
+        run: dotnet test AboveOurHeads.Tests/AboveOurHeads.Tests.csproj --configuration Debug --no-build
